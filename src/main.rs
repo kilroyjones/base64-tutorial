@@ -2,28 +2,24 @@ mod base64;
 
 use base64::Base64;
 fn main() {
-    let original = "ab";
+    let original = "abcde";
     let mut base64 = Base64::new();
 
-    let encoded = match base64.encode(original) {
-        Ok(e) => e,
-        Err(e) => panic!("{}", e),
-    };
+    let encoded = base64.encode(original).unwrap();
+    // let encoded = match base64.encode(original) {
+    //     Ok(e) => e,
+    //     Err(e) => panic!("{}", e),
+    // };
 
-    let decoded = match base64.decode(&encoded) {
-        Ok(d) => d,
-        Err(e) => panic!("{}", e),
-    };
+    let decoded = base64.decode("").unwrap();
+    // let decoded = match base64.decode(&encoded) {
+    //     Ok(d) => d,
+    //     Err(e) => panic!("{}", e),
+    // };
 
     println!("Original: {}", original);
     println!("Encoded: {}", encoded);
     println!("Decoded: {}", decoded);
-
-    assert_eq!(original, decoded, "Failed");
-    assert!(
-        original.eq(decoded.as_str()),
-        "Original and decoded are not equal!"
-    );
 }
 
 #[cfg(test)]
@@ -35,12 +31,11 @@ mod tests {
         let original = "hello world";
         let mut base64 = Base64::new();
 
-        let encoded = base64.encode(original);
-        let decoded = base64.decode(&encoded.unwrap());
+        let encoded = base64.encode(original).unwrap();
+        let decoded = base64.decode(&encoded).unwrap();
 
         assert_eq!(
-            original,
-            decoded.unwrap(),
+            original, decoded,
             "Original and decoded messages do not match"
         );
     }

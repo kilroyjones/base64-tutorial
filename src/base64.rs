@@ -1,8 +1,9 @@
+use std::string::FromUtf8Error;
+
 const BASE64_CHARSET: &[u8; 64] =
     b"ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/";
 
 pub struct Base64;
-use std::string::FromUtf8Error;
 
 #[derive(Debug)]
 pub enum Base64Error {
@@ -62,18 +63,15 @@ impl Base64 {
         for c in input.chars() {
             if c != '=' {
                 let position = BASE64_CHARSET.iter().position(|&x| x == c as u8);
-                println!("pos: {:?}", position);
 
                 match position {
                     Some(pos) => {
                         buffer = (buffer << 6) | pos as u32;
                         bits_collected += 6;
 
-                        println!("buffer {buffer:b}");
                         while bits_collected >= 8 {
                             bits_collected -= 8;
                             let byte = (buffer >> bits_collected) & 0xFF;
-                            println!("byte {byte:b}");
                             decoded.push(byte as u8);
                         }
                     }
