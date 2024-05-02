@@ -11,7 +11,7 @@ fn main() {
     //     Err(e) => panic!("{}", e),
     // };
 
-    let decoded = base64.decode("").unwrap();
+    let decoded = base64.decode(&encoded).unwrap();
     // let decoded = match base64.decode(&encoded) {
     //     Ok(d) => d,
     //     Err(e) => panic!("{}", e),
